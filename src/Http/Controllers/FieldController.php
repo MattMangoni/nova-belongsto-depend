@@ -103,6 +103,12 @@ class FieldController extends Controller
 
         foreach ($request->dependsMap as $value) {
             $modelClass = Nova::modelInstanceForKey($value['key'] ?? $request->modalClass);
+
+            if ($value['value'] === 0) {
+                array_push($models, null);
+                continue;
+            }
+
             if (is_null($modelClass::find($value['value']))) {
                 abort(500, 'Can not find the Model "' . $modelClass . '::find(' . $value['value'] . ')');
             }
